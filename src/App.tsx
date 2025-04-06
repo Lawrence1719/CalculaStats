@@ -23,7 +23,8 @@ export default function StatisticsCalculator() {
     min: null,
     max: null,
     variance: null,
-  })
+    standardDeviation: null,
+  })  
   const [error, setError] = useState<string | null>(null)
   const [showResults, setShowResults] = useState(false)
   const [showBreakdown, setShowBreakdown] = useState({
@@ -34,6 +35,7 @@ export default function StatisticsCalculator() {
     min: false,
     max: false,
     variance: false,
+    standardDeviation: false,
   })
   const { toast } = useToast()
   const [activeFormula, setActiveFormula] = useState<string | null>("mean")
@@ -103,7 +105,9 @@ export default function StatisticsCalculator() {
       min: null,
       max: null,
       variance: null,
+      standardDeviation: null,
     })
+    
     setError(null)
     setShowResults(false)
     setShowBreakdown({
@@ -114,6 +118,7 @@ export default function StatisticsCalculator() {
       min: false,
       max: false,
       variance: false,
+      standardDeviation: false,
     })
   }
 
