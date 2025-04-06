@@ -11,9 +11,12 @@ export const formatNumber = (num: number | null) => {
 
 // Calculate all statistics
 export const calculateStatistics = (numbers: number[]): StatisticsResults => {
-  // Calculate mean
+  // Calculate count and sum
+  const count = numbers.length
   const sum = numbers.reduce((acc, num) => acc + num, 0)
-  const mean = sum / numbers.length
+  
+  // Calculate mean
+  const mean = sum / count
 
   // Calculate median
   const sortedNumbers = [...numbers].sort((a, b) => a - b)
@@ -46,6 +49,9 @@ export const calculateStatistics = (numbers: number[]): StatisticsResults => {
   // Calculate variance
   const variance = numbers.reduce((acc, num) => acc + Math.pow(num - mean, 2), 0) / numbers.length
 
+  // Calculate standard deviation
+  const standardDeviation = Math.sqrt(variance)
+
   return {
     mean,
     median,
@@ -54,6 +60,9 @@ export const calculateStatistics = (numbers: number[]): StatisticsResults => {
     min,
     max,
     variance,
+    standardDeviation,
+    count,
+    sum
   }
 }
 
@@ -74,8 +83,6 @@ export const prepareChartData = (numbers: number[]): ChartDataPoint[] => {
       frequency: frequency[Number(num)],
     }))
     .sort((a, b) => a.value - b.value)
-
-    
 }
 
 // Prepare distribution data for line chart

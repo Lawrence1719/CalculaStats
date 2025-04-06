@@ -86,4 +86,18 @@ export const formulas: FormulasCollection = {
     notes:
       "A larger variance indicates greater dispersion of the data. The standard deviation (σ) is the square root of the variance and is often used because it's in the same units as the original data.",
   },
+  standardDeviation: {
+    title: "Standard Deviation",
+    formula: "σ = √(σ²) = √[Σ(xᵢ - μ)² / n]",
+    description:
+      "Standard deviation is the square root of the variance. It measures the average distance between each data point and the mean.",
+    steps: [
+      "Calculate the variance (σ²) of the dataset",
+      "Take the square root of the variance",
+    ],
+    example: "For the dataset [2, 4, 6, 8, 10] with variance = 8:",
+    calculation: "σ = √(8) = 2.83",
+    notes:
+      "Standard deviation is in the same units as the original data, making it more interpretable than variance. A smaller standard deviation indicates that the values are clustered closer to the mean.",
+  },
 };
