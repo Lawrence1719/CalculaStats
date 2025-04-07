@@ -9,6 +9,7 @@ export const formatNumber = (num: number | null) => {
   }).format(num)
 }
 
+
 // Calculate all statistics
 export const calculateStatistics = (numbers: number[]): StatisticsResults => {
   // Calculate count and sum
@@ -52,6 +53,27 @@ export const calculateStatistics = (numbers: number[]): StatisticsResults => {
   // Calculate standard deviation
   const standardDeviation = Math.sqrt(variance)
 
+  // Calculate quartiles
+  // Q1 (25th percentile)
+  const q1Index = Math.floor(sortedNumbers.length * 0.25)
+  const q1 = sortedNumbers.length % 4 === 0 
+    ? (sortedNumbers[q1Index - 1] + sortedNumbers[q1Index]) / 2 
+    : sortedNumbers[q1Index]
+
+  // Q3 (75th percentile)
+  const q3Index = Math.floor(sortedNumbers.length * 0.75)
+  const q3 = sortedNumbers.length % 4 === 0 
+    ? (sortedNumbers[q3Index - 1] + sortedNumbers[q3Index]) / 2 
+    : sortedNumbers[q3Index]
+
+  // Calculate IQR (Interquartile Range)
+  const iqr = q3 - q1
+
+  // Calculate outliers (values below Q1 - 1.5*IQR or above Q3 + 1.5*IQR)
+  const lowerBound = q1 - 1.5 * iqr
+  const upperBound = q3 + 1.5 * iqr
+  const outliers = sortedNumbers.filter(num => num < lowerBound || num > upperBound)
+
   return {
     mean,
     median,
@@ -62,7 +84,11 @@ export const calculateStatistics = (numbers: number[]): StatisticsResults => {
     variance,
     standardDeviation,
     count,
-    sum
+    sum,
+    q1,
+    q3,
+    iqr,
+    outliers
   }
 }
 

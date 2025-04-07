@@ -1,11 +1,17 @@
 import React from "react";
 import { Info } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FormulaInfo } from "../types";  // Import the FormulaInfo type
+import { FormulaInfo } from "../types"; // Import the FormulaInfo type
 
 interface FormulaReferenceProps {
-  formulas: Record<string, FormulaInfo>;  // Ensure this prop is passed correctly
+  formulas: Record<string, FormulaInfo>; // Ensure this prop is passed correctly
   activeFormula: string | null;
   setActiveFormula: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -44,32 +50,56 @@ const FormulaReference: React.FC<FormulaReferenceProps> = ({
             <TabsTrigger value="max">Max</TabsTrigger>
             <TabsTrigger value="variance">Variance</TabsTrigger>
           </TabsList>
+          <TabsList className="grid grid-cols-3 mb-4">
+            <TabsTrigger value="q1">Q1</TabsTrigger>
+            <TabsTrigger value="q2">Q2</TabsTrigger>
+            <TabsTrigger value="q3">Q3</TabsTrigger>
+          </TabsList>
+          <TabsList className="grid grid-cols-3 mb-4">
+            <TabsTrigger value="iqr">IQR</TabsTrigger>
+            <TabsTrigger value="outliers">Outliers</TabsTrigger>
+            <TabsTrigger value="standardDeviation">Std Dev</TabsTrigger>
+          </TabsList>
 
           {Object.entries(formulas).map(([key, formula]) => (
             <TabsContent key={key} value={key} className="mt-0 space-y-4">
               <div className="bg-slate-50 dark:bg-slate-700/30 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-2">{formula.title}</h3>
+                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-2">
+                  {formula.title}
+                </h3>
                 <div className="bg-white dark:bg-slate-800 p-3 rounded-md border border-slate-200 dark:border-slate-700 font-mono text-sm mb-4 whitespace-pre-line">
                   {formula.formula}
                 </div>
-                <p className="text-slate-700 dark:text-slate-300 mb-4">{formula.description}</p>
+                <p className="text-slate-700 dark:text-slate-300 mb-4">
+                  {formula.description}
+                </p>
 
-                <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-2">Steps to Calculate:</h4>
+                <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                  Steps to Calculate:
+                </h4>
                 <ol className="list-decimal pl-5 mb-4 text-slate-700 dark:text-slate-300 space-y-1">
                   {formula.steps.map((step, index) => (
                     <li key={index}>{step}</li>
                   ))}
                 </ol>
 
-                <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-2">Example:</h4>
-                <p className="text-slate-700 dark:text-slate-300 mb-1">{formula.example}</p>
+                <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                  Example:
+                </h4>
+                <p className="text-slate-700 dark:text-slate-300 mb-1">
+                  {formula.example}
+                </p>
                 <div className="bg-slate-100 dark:bg-slate-700/50 p-2 rounded-md font-mono text-sm mb-4">
                   {formula.calculation}
                 </div>
 
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md border border-blue-100 dark:border-blue-800/30">
-                  <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-1">Notes:</h4>
-                  <p className="text-blue-700 dark:text-blue-300 text-sm">{formula.notes}</p>
+                  <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-1">
+                    Notes:
+                  </h4>
+                  <p className="text-blue-700 dark:text-blue-300 text-sm">
+                    {formula.notes}
+                  </p>
                 </div>
               </div>
             </TabsContent>
@@ -77,7 +107,6 @@ const FormulaReference: React.FC<FormulaReferenceProps> = ({
         </Tabs>
       </CardContent>
     </Card>
-    
   );
 };
 

@@ -100,4 +100,73 @@ export const formulas: FormulasCollection = {
     notes:
       "Standard deviation is in the same units as the original data, making it more interpretable than variance. A smaller standard deviation indicates that the values are clustered closer to the mean.",
   },
+  q1: {
+    title: "First Quartile (Q1)",
+    formula: "Q1 = Median of the lower half of the dataset",
+    description:
+      "Q1 (the first quartile) is the median of the lower half of the dataset. It marks the 25th percentile.",
+    steps: [
+      "Sort the dataset in ascending order",
+      "Find the median of the lower half (excluding the median if the dataset size is odd)"
+    ],
+    example: "For the dataset [2, 4, 6, 8, 10]:",
+    calculation: "Lower half: [2, 4] → Q1 = (2 + 4) / 2 = 3",
+    notes: "Q1 helps identify the lower spread of the data and is used in computing IQR."
+  },
+  q2: {
+    title: "Second Quartile (Q2 / Median)",
+    formula: "Q2 = Median of the dataset",
+    description: "Q2 is the 50th percentile of the dataset, which is the same as the median.",
+    steps: [
+      "Sort the dataset in ascending order",
+      "If odd number of items: Q2 = middle value",
+      "If even: Q2 = average of the two middle values"
+    ],
+    example: "For [2, 4, 6, 8, 10]:",
+    calculation: "Sorted: [2, 4, 6, 8, 10] → Q2 = 6",
+    notes: "Q2 divides the dataset into two equal halves."
+  },
+  q3: {
+    title: "Third Quartile (Q3)",
+    formula: "Q3 = Median of the upper half of the dataset",
+    description:
+      "Q3 (the third quartile) is the median of the upper half of the dataset. It marks the 75th percentile.",
+    steps: [
+      "Sort the dataset in ascending order",
+      "Find the median of the upper half (excluding the median if the dataset size is odd)"
+    ],
+    example: "For the dataset [2, 4, 6, 8, 10]:",
+    calculation: "Upper half: [8, 10] → Q3 = (8 + 10) / 2 = 9",
+    notes: "Q3 helps identify the upper spread of the data and is used in computing IQR."
+  },
+  iqr: {
+    title: "Interquartile Range (IQR)",
+    formula: "IQR = Q3 - Q1",
+    description:
+      "The IQR measures the range of the middle 50% of the data. It is the difference between the third and first quartiles.",
+    steps: [
+      "Find Q1 (25th percentile)",
+      "Find Q3 (75th percentile)",
+      "Subtract Q1 from Q3"
+    ],
+    example: "If Q1 = 3 and Q3 = 9:",
+    calculation: "IQR = 9 - 3 = 6",
+    notes: "The IQR is a robust measure of spread that is not affected by outliers."
+  },
+  outliers: {
+    title: "Outliers",
+    formula: "Outliers < Q1 - 1.5×IQR or > Q3 + 1.5×IQR",
+    description:
+      "Outliers are data points that lie significantly outside the range of the rest of the data.",
+    steps: [
+      "Calculate Q1 and Q3",
+      "Compute IQR = Q3 - Q1",
+      "Lower bound = Q1 - 1.5 × IQR",
+      "Upper bound = Q3 + 1.5 × IQR",
+      "Any values outside this range are considered outliers"
+    ],
+    example: "If Q1 = 3, Q3 = 9, IQR = 6:",
+    calculation: "Lower bound = 3 - 1.5×6 = -6\nUpper bound = 9 + 1.5×6 = 18\nOutliers are values < -6 or > 18",
+    notes: "Outliers can distort statistical measures and should be carefully considered before removing."
+  },
 };

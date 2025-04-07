@@ -414,6 +414,201 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({
               </div>
             </CollapsibleContent>
           </Collapsible>
+
+    {/* Q1 (First Quartile) */}
+    <Collapsible
+      open={showBreakdown.q1}
+      onOpenChange={(open) => setShowBreakdown({ ...showBreakdown, q1: open })}
+    >
+      <div className="grid grid-cols-3 items-center">
+        <span className="font-medium text-slate-700 dark:text-slate-300">Q1 (25%):</span>
+        <span className="col-span-1 text-slate-900 dark:text-slate-100 font-mono">
+          {formatNumber(results.q1)}
+        </span>
+        <CollapsibleTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="justify-self-end"
+            onClick={() => setActiveFormula("q1")}
+          >
+            {showBreakdown.q1 ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+      <CollapsibleContent className="mt-2 text-sm bg-slate-100 dark:bg-slate-600/50 p-3 rounded-md">
+        <p className="text-slate-700 dark:text-slate-300 mb-1">
+          First quartile (25th percentile) - the median of the lower half of the data
+        </p>
+        <div className="font-mono">
+          <div>Sorted values: {[...numbers].sort((a, b) => a - b).join(", ")}</div>
+          <div>Position: 25% of {numbers.length} = {Math.floor(numbers.length * 0.25)}</div>
+          <div>Q1 value: {formatNumber(results.q1)}</div>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+
+    <Collapsible
+  open={showBreakdown.median}
+  onOpenChange={(open) => setShowBreakdown({ ...showBreakdown, median: open })}
+>
+  <div className="grid grid-cols-3 items-center">
+    <span className="font-medium text-slate-700 dark:text-slate-300">Q2 (Median / 50%):</span>
+    <span className="col-span-1 text-slate-900 dark:text-slate-100 font-mono">
+      {formatNumber(results.median)}
+    </span>
+    <CollapsibleTrigger asChild>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="justify-self-end"
+        onClick={() => setActiveFormula("median")}
+      >
+        {showBreakdown.median ? (
+          <ChevronUp className="h-4 w-4" />
+        ) : (
+          <ChevronDown className="h-4 w-4" />
+        )}
+      </Button>
+    </CollapsibleTrigger>
+  </div>
+  <CollapsibleContent className="mt-2 text-sm bg-slate-100 dark:bg-slate-600/50 p-3 rounded-md">
+    <p className="text-slate-700 dark:text-slate-300 mb-1">
+      Median (Q2 / 50th percentile) - the middle value when data is sorted
+    </p>
+    <div className="font-mono">
+      <div>Sorted values: {[...numbers].sort((a, b) => a - b).join(", ")}</div>
+      <div>Median position: {Math.ceil(numbers.length / 2)}</div>
+      <div>Q2 (Median): {formatNumber(results.median)}</div>
+    </div>
+  </CollapsibleContent>
+</Collapsible>
+
+    {/* Q3 (Third Quartile) */}
+    <Collapsible
+      open={showBreakdown.q3}
+      onOpenChange={(open) => setShowBreakdown({ ...showBreakdown, q3: open })}
+    >
+      <div className="grid grid-cols-3 items-center">
+        <span className="font-medium text-slate-700 dark:text-slate-300">Q3 (75%):</span>
+        <span className="col-span-1 text-slate-900 dark:text-slate-100 font-mono">
+          {formatNumber(results.q3)}
+        </span>
+        <CollapsibleTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="justify-self-end"
+            onClick={() => setActiveFormula("q3")}
+          >
+            {showBreakdown.q3 ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+      <CollapsibleContent className="mt-2 text-sm bg-slate-100 dark:bg-slate-600/50 p-3 rounded-md">
+        <p className="text-slate-700 dark:text-slate-300 mb-1">
+          Third quartile (75th percentile) - the median of the upper half of the data
+        </p>
+        <div className="font-mono">
+          <div>Sorted values: {[...numbers].sort((a, b) => a - b).join(", ")}</div>
+          <div>Position: 75% of {numbers.length} = {Math.floor(numbers.length * 0.75)}</div>
+          <div>Q3 value: {formatNumber(results.q3)}</div>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+
+    {/* IQR (Interquartile Range) */}
+    <Collapsible
+      open={showBreakdown.iqr}
+      onOpenChange={(open) => setShowBreakdown({ ...showBreakdown, iqr: open })}
+    >
+      <div className="grid grid-cols-3 items-center">
+        <span className="font-medium text-slate-700 dark:text-slate-300">IQR:</span>
+        <span className="col-span-1 text-slate-900 dark:text-slate-100 font-mono">
+          {formatNumber(results.iqr)}
+        </span>
+        <CollapsibleTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="justify-self-end"
+            onClick={() => setActiveFormula("iqr")}
+          >
+            {showBreakdown.iqr ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+      <CollapsibleContent className="mt-2 text-sm bg-slate-100 dark:bg-slate-600/50 p-3 rounded-md">
+        <p className="text-slate-700 dark:text-slate-300 mb-1">
+          Formula: Q3 - Q1 (Interquartile Range - measures the spread of the middle 50% of values)
+        </p>
+        <div className="font-mono">
+          <div>Q1: {formatNumber(results.q1)}</div>
+          <div>Q3: {formatNumber(results.q3)}</div>
+          <div>
+            IQR: {formatNumber(results.q3)} - {formatNumber(results.q1)} = {formatNumber(results.iqr)}
+          </div>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+
+    {/* Outliers */}
+    <Collapsible
+      open={showBreakdown.outliers}
+      onOpenChange={(open) => setShowBreakdown({ ...showBreakdown, outliers: open })}
+    >
+      <div className="grid grid-cols-3 items-center">
+        <span className="font-medium text-slate-700 dark:text-slate-300">Outliers:</span>
+        <span className="col-span-1 text-slate-900 dark:text-slate-100 font-mono">
+          {results.outliers && results.outliers.length > 0 
+            ? results.outliers.map(o => formatNumber(o)).join(", ") 
+            : "None"}
+        </span>
+        <CollapsibleTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="justify-self-end"
+            onClick={() => setActiveFormula("outliers")}
+          >
+            {showBreakdown.outliers ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+      <CollapsibleContent className="mt-2 text-sm bg-slate-100 dark:bg-slate-600/50 p-3 rounded-md">
+        <p className="text-slate-700 dark:text-slate-300 mb-1">
+          Formula: Values below Q1 - 1.5*IQR or above Q3 + 1.5*IQR
+        </p>
+        <div className="font-mono">
+          <div>Q1: {formatNumber(results.q1)}</div>
+          <div>Q3: {formatNumber(results.q3)}</div>
+          <div>IQR: {formatNumber(results.iqr)}</div>
+          <div>Lower bound: {formatNumber(results.q1)} - 1.5*{formatNumber(results.iqr)} = {formatNumber((results.q1 || 0) - 1.5 * (results.iqr || 0))}</div>
+          <div>Upper bound: {formatNumber(results.q3)} + 1.5*{formatNumber(results.iqr)} = {formatNumber((results.q3 || 0) + 1.5 * (results.iqr || 0))}</div>
+          <div className="mt-1">
+            Outliers: {results.outliers && results.outliers.length > 0 
+              ? results.outliers.map(o => formatNumber(o)).join(", ") 
+              : "None detected"}
+          </div>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
         </div>
       </div>
     </div>

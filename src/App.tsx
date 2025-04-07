@@ -1,20 +1,30 @@
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Copy, RefreshCw } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { useToast } from "@/hooks/use-toast"
-import { StatisticsResults } from "./types"
-import { calculateStatistics as calculateStatsUtil, formatNumber } from "./statistics"
-import DataInputSection from "./components/data_input_section"
-import ChartSection from "./components/chart_section"
-import ResultsSection from "./components/result_section"
-import FormulaReference from './components/formula_reference' ;
-import { formulas } from "./formula"
+import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Copy, RefreshCw } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { useToast } from "@/hooks/use-toast";
+import { StatisticsResults } from "./types";
+import {
+  calculateStatistics as calculateStatsUtil,
+  formatNumber,
+} from "./statistics";
+import DataInputSection from "./components/data_input_section";
+import ChartSection from "./components/chart_section";
+import ResultsSection from "./components/result_section";
+import FormulaReference from "./components/formula_reference";
+import { formulas } from "./formula";
 
-export default function StatisticsCalculator() {  
-  const [input, setInput] = useState("")
-  const [numbers, setNumbers] = useState<number[]>([])
+export default function StatisticsCalculator() {
+  const [input, setInput] = useState("");
+  const [numbers, setNumbers] = useState<number[]>([]);
   const [results, setResults] = useState<StatisticsResults>({
     mean: null,
     median: null,
@@ -24,9 +34,16 @@ export default function StatisticsCalculator() {
     max: null,
     variance: null,
     standardDeviation: null,
-  })  
-  const [error, setError] = useState<string | null>(null)
-  const [showResults, setShowResults] = useState(false)
+    count: null,
+    sum: null,
+    q1: null,
+    q3: null,
+    iqr: null,
+    outliers: [],
+  });
+
+  const [error, setError] = useState<string | null>(null);
+  const [showResults, setShowResults] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState({
     mean: false,
     median: false,
@@ -36,15 +53,19 @@ export default function StatisticsCalculator() {
     max: false,
     variance: false,
     standardDeviation: false,
-  })
-  const { toast } = useToast()
-  const [activeFormula, setActiveFormula] = useState<string | null>("mean")
+    q1: false,
+    q3: false,
+    iqr: false,
+    outliers: false,
+  });
+  const { toast } = useToast();
+  const [activeFormula, setActiveFormula] = useState<string | null>("mean");
 
   // Parse input when it changes
   useEffect(() => {
     if (input.trim() === "") {
-      setNumbers([])
-      return
+      setNumbers([]);
+      return;
     }
 
     try {
@@ -54,49 +75,49 @@ export default function StatisticsCalculator() {
         .map((num) => num.trim())
         .filter((num) => num !== "")
         .map((num) => {
-          const parsed = Number(num)
-          if (isNaN(parsed)) throw new Error("Invalid number")
-          return parsed
-        })
+          const parsed = Number(num);
+          if (isNaN(parsed)) throw new Error("Invalid number");
+          return parsed;
+        });
 
-      setNumbers(parsedNumbers)
-      setError(null)
+      setNumbers(parsedNumbers);
+      setError(null);
     } catch (err) {
-      setError("Please enter only valid numbers separated by commas")
+      setError("Please enter only valid numbers separated by commas");
     }
-  }, [input])
+  }, [input]);
 
   // Remove a number chip
   const removeNumber = (index: number) => {
-    const newNumbers = [...numbers]
-    newNumbers.splice(index, 1)
+    const newNumbers = [...numbers];
+    newNumbers.splice(index, 1);
 
     // Update the input to match the new numbers array
-    setInput(newNumbers.join(", "))
-  }
+    setInput(newNumbers.join(", "));
+  };
 
   const calculateStatistics = () => {
     // Hide results during calculation for animation effect
-    setShowResults(false)
+    setShowResults(false);
 
     // Check if we have numbers to calculate
     if (numbers.length === 0) {
-      setError("Please enter at least one number")
-      return
+      setError("Please enter at least one number");
+      return;
     }
 
     // Calculate statistics using utility function
-    const calculatedResults = calculateStatsUtil(numbers)
-    setResults(calculatedResults)
-    setError(null)
+    const calculatedResults = calculateStatsUtil(numbers);
+    setResults(calculatedResults);
+    setError(null);
 
     // Show results with a slight delay for animation
-    setTimeout(() => setShowResults(true), 100)
-  }
+    setTimeout(() => setShowResults(true), 100);
+  };
 
   const resetCalculator = () => {
-    setInput("")
-    setNumbers([])
+    setInput("");
+    setNumbers([]);
     setResults({
       mean: null,
       median: null,
@@ -106,10 +127,16 @@ export default function StatisticsCalculator() {
       max: null,
       variance: null,
       standardDeviation: null,
-    })
-    
-    setError(null)
-    setShowResults(false)
+      count: null,
+      sum: null,
+      q1: null,
+      q3: null,
+      iqr: null,
+      outliers: [],
+    });
+
+    setError(null);
+    setShowResults(false);
     setShowBreakdown({
       mean: false,
       median: false,
@@ -119,11 +146,15 @@ export default function StatisticsCalculator() {
       max: false,
       variance: false,
       standardDeviation: false,
-    })
-  }
+      q1: false,
+      q3: false,
+      iqr: false,
+      outliers: false,
+    });
+  };
 
   const copyResults = () => {
-    if (results.mean === null) return
+    if (results.mean === null) return;
 
     const resultsText = `
 Statistics Results:
@@ -138,15 +169,15 @@ Range: ${formatNumber(results.range)}
 Minimum: ${formatNumber(results.min)}
 Maximum: ${formatNumber(results.max)}
 Variance: ${formatNumber(results.variance)}
-    `.trim()
+    `.trim();
 
-    navigator.clipboard.writeText(resultsText)
+    navigator.clipboard.writeText(resultsText);
     toast({
       title: "Copied to clipboard",
       description: "Results have been copied to your clipboard",
       duration: 3000,
-    })
-  }
+    });
+  };
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-900 p-4 transition-colors duration-300">
@@ -158,28 +189,29 @@ Variance: ${formatNumber(results.variance)}
         {/* Main Calculator Card */}
         <Card className="w-full lg:w-3/5 shadow-lg transition-all duration-300 dark:bg-slate-800 dark:border-slate-700">
           <CardHeader className="bg-slate-100 rounded-t-lg transition-colors duration-300 dark:bg-slate-800 dark:border-b dark:border-slate-700">
-            <CardTitle className="text-slate-700 dark:text-slate-200">Statistics Calculator</CardTitle>
-            <CardDescription className="dark:text-slate-400">Enter numbers separated by commas</CardDescription>
+            <CardTitle className="text-slate-700 dark:text-slate-200">
+              Statistics Calculator
+            </CardTitle>
+            <CardDescription className="dark:text-slate-400">
+              Enter numbers separated by commas
+            </CardDescription>
           </CardHeader>
           <CardContent className="pt-6 pb-2">
             <div className="space-y-4">
-              <DataInputSection 
-                input={input} 
-                setInput={setInput} 
-                numbers={numbers} 
-                removeNumber={removeNumber} 
-                error={error} 
+              <DataInputSection
+                input={input}
+                setInput={setInput}
+                numbers={numbers}
+                removeNumber={removeNumber}
+                error={error}
               />
 
               {numbers.length > 0 && (
-                <ChartSection 
-                  numbers={numbers} 
-                  results={results} 
-                />
+                <ChartSection numbers={numbers} results={results} />
               )}
 
               {results.mean !== null && (
-                <ResultsSection 
+                <ResultsSection
                   results={results}
                   numbers={numbers}
                   showResults={showResults}
@@ -226,12 +258,11 @@ Variance: ${formatNumber(results.variance)}
 
         {/* Formula Reference Card */}
         <FormulaReference
-  formulas={formulas}  // Pass the formulas object
-  activeFormula={activeFormula}
-  setActiveFormula={setActiveFormula}
-/>
-
+          formulas={formulas} // Pass the formulas object
+          activeFormula={activeFormula}
+          setActiveFormula={setActiveFormula}
+        />
       </div>
     </div>
-  )
+  );
 }
