@@ -52,7 +52,7 @@ export default tseslint.config({
   },
 })
 ```
-=======
+
 # CalculaStats
 Statistics Calculator
 >>>>>>> 6432efffd5d675bddc82af25183d7ddb53f86927
